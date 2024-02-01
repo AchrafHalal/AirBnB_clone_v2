@@ -32,14 +32,14 @@ def do_deploy(archive_path):
     try:
         if not os.path.exists(archive_path):
             return False
-        fn_with_ext = os.path.basename(archive_path)
-        fn_no_ext, ext = os.path.splitext(fn_with_ext)
+        fn_w_ext = os.path.basename(archive_path)
+        fn_no_ext, ext = os.path.splitext(fn_w_ext)
         dpath = "/data/web_static/releases/"
         put(archive_path, "/tmp/")
         run("sudo rm -rf {}{}/".format(dpath, fn_no_ext))
         run("sudo mkdir -p {}{}/".format(dpath, fn_no_ext))
-        run("sudo tar -xzf /tmp/{} -C {}{}/".format(fn_with_ext, dpath, fn_no_ext))
-        run("sudo rm /tmp/{}".format(fn_with_ext))
+        run("sudo tar -xzf /tmp/{} -C {}{}/".format(fn_w_ext, dpath, fn_no_ext))
+        run("sudo rm /tmp/{}".format(fn_w_ext))
         run("sudo mv {0}{1}/web_static/* {0}{1}/".format(dpath, fn_no_ext))
         run("sudo rm -rf {}{}/web_static".format(dpath, fn_no_ext))
         run("sudo rm -rf /data/web_static/current")
