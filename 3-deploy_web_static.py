@@ -13,18 +13,25 @@ env.key_filename = '~/.ssh/id_rsa'
 
 @task
 def do_pack():
-    """ A script that generates archive the contents of web_static folder"""
+    """
+    Generates a .tgz archive web_static.
 
-    filename = strftime("%Y%m%d%H%M%S")
+    Returns:
+        str: The path to the generated archive
+        file, or None if an error occurs.
+    """
+    dt = datetime.now().strftime("%Y%m%d%H%M%S")
+    conf = f"versions/web_static_{dt}.tgz"
+    cmd = f"tar -cvzf {conf} web_static"
     try:
-        local("mkdir -p versions")
-        local("tar -czvf versions/web_static_{}.tgz web_static/"
-              .format(filename))
-
-        return "versions/web_static_{}.tgz".format(filename)
-
-    except Exception as e:
+        if not exists("versions"):
+            local("mkdir versions")
+        local(cmd)
+        return conf
+    except Exception:
         return None
+
+
 @task
 def do_deploy(archive_path):
     """ Deploy package to remote server.
