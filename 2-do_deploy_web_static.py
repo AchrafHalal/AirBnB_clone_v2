@@ -38,14 +38,13 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
         run("sudo rm -rf {}{}/".format(dpath, fn_no_ext))
         run("sudo mkdir -p {}{}/".format(dpath, fn_no_ext))
-        run("sudo tar -xzf /tmp/{} -C {}{}/".format(fn_w_ext, dpath, fn_no_ext))
+        run("sudo tar -xzf /tmp/{} -C {}{}/".format(fn_w_ext,dpath,fn_no_ext))
         run("sudo rm /tmp/{}".format(fn_w_ext))
         run("sudo mv {0}{1}/web_static/* {0}{1}/".format(dpath, fn_no_ext))
         run("sudo rm -rf {}{}/web_static".format(dpath, fn_no_ext))
         run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {}{}/ /data/web_static/current".format(dpath, fn_no_ext))
+        run("sudo ln -s {}{}/ /data/web_static/current".format(dpath,fn_no_ext))
         print("New version deployed!")
         return True
     except Exception:
         return False
-
