@@ -32,18 +32,18 @@ def do_deploy(archive_path):
     try:
         if not os.path.exists(archive_path):
             return False
-        fn_w_ext = os.path.basename(archive_path)
-        fn_no_ext, ext = os.path.splitext(fn_w_ext)
+        f_w_ext = os.path.basename(archive_path)
+        f_no_ext, ext = os.path.splitext(f_w_ext)
         dpath = "/data/web_static/releases/"
         put(archive_path, "/tmp/")
-        run("sudo rm -rf {}{}/".format(dpath, fn_no_ext))
-        run("sudo mkdir -p {}{}/".format(dpath, fn_no_ext))
-        run("sudo tar -xzf /tmp/{} -C {}{}/".format(fn_w_ext,dpath,fn_no_ext))
-        run("sudo rm /tmp/{}".format(fn_w_ext))
-        run("sudo mv {0}{1}/web_static/* {0}{1}/".format(dpath, fn_no_ext))
-        run("sudo rm -rf {}{}/web_static".format(dpath, fn_no_ext))
+        run("sudo rm -rf {}{}/".format(dpath, f_no_ext))
+        run("sudo mkdir -p {}{}/".format(dpath, f_no_ext))
+        run("sudo tar -xzf /tmp/{} -C {}{}/".format(f_w_ext, dpath, f_no_ext))
+        run("sudo rm /tmp/{}".format(f_w_ext))
+        run("sudo mv {0}{1}/web_static/* {0}{1}/".format(dpath, f_no_ext))
+        run("sudo rm -rf {}{}/web_static".format(dpath, f_no_ext))
         run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {}{}/ /data/web_static/current".format(dpath,fn_no_ext))
+        run("sudo ln -s {}{}/ /data/web_static/current".format(dpath, f_no_ext))
         print("New version deployed!")
         return True
     except Exception:
