@@ -13,23 +13,16 @@ env.key_filename = '~/.ssh/id_rsa'
 
 @task
 def do_pack():
+    """ method doc
+        sudo fab -f 1-pack_web_static.py do_pack
     """
-    Generates a .tgz archive web_static.
-
-    Returns:
-        str: The path to the generated archive
-        file, or None if an error occurs.
-    """
-    dt = datetime.now().strftime("%Y%m%d%H%M%S")
-    conf = f"versions/web_static_{dt}.tgz"
-    cmd = f"tar -cvzf {conf} web_static"
-    try:
-        if not exists("versions"):
-            local("mkdir versions")
-        local(cmd)
-        return conf
-    except Exception:
-        return None
+    formatted_dt = datetime.now().strftime('%Y%m%d%H%M%S')
+    mkdir = "mkdir -p versions"
+    path = "versions/web_static_{}.tgz".format(formatted_dt)
+    print("Packing web_static to {}".format(path))
+    if local("{} && tar -cvzf {} web_static".format(mkdir, path)).succeeded:
+        return path
+    return None
 
 
 @task
